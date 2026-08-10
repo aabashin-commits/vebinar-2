@@ -1,0 +1,90 @@
+/* offer.css — три бонуса участникам вебинара. Средняя карточка акцентная
+   (розовая): подбор профиля под конкретный вуз — самый весомый повод дойти
+   до эфира, поэтому она визуально тяжелее соседних и приподнята.
+
+   ⚠️ Правило .offer__price (крупная цифра «50%») удалено вместе со скидкой
+   из вебинара 1 — в бонусах этого лендинга чисел нет. Понадобится числовой
+   акцент — вернуть из vebinar-1/css/offer.css. */
+
+.offer__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(24px, 2.5cqw, 48px);
+  text-align: center;
+}
+
+.offer__title { line-height: 0.95; }
+
+.offer__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--gap-cards);
+}
+
+.offer__card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.2cqw, 20px);
+  padding: clamp(24px, 2.5cqw, 48px);
+  border-radius: var(--radius-card);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+/* Акцентная карточка: розовая заливка + лёгкий подъём. Подъём делаем
+   отрицательным margin, а не transform — иначе она вылезала бы за пределы
+   потока и на планшете наезжала на соседнюю. */
+.offer__card--accent {
+  background: var(--color-pink);
+  color: var(--color-white);
+  box-shadow: var(--shadow-bubble);
+  margin-block: calc(clamp(10px, 1cqw, 20px) * -1);
+  padding-block: calc(clamp(24px, 2.5cqw, 48px) + clamp(10px, 1cqw, 20px));
+}
+
+.offer__tag {
+  align-self: flex-start;
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-light-blue);
+  color: var(--color-blue-chip);
+}
+
+.offer__tag--light {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--color-white);
+}
+
+.offer__tag--pink {
+  background: var(--color-pink);
+  color: var(--color-white);
+}
+
+.offer__card-title {
+  font-size: var(--fs-h4);
+  line-height: 1.15;
+}
+
+.offer__card-text {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--color-gray-1);
+}
+
+.offer__card--accent .offer__card-text { color: var(--color-white); }
+
+@media (max-width: 1024px) {
+  .offer__grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* В столбик подъём акцентной карточки читается как сбитый отступ */
+  .offer__card--accent {
+    margin-block: 0;
+    padding-block: clamp(24px, 2.5cqw, 48px);
+  }
+}

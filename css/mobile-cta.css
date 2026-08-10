@@ -1,0 +1,50 @@
+/* mobile-cta.css — липкая плашка с CTA у нижнего края экрана на телефоне (≤767).
+   Перенесено из school/css/mobile-cta.css. Появляется, когда CTA первого экрана
+   пролистан вверх за границу окна: этим управляет js/mobile-cta.js
+   (IntersectionObserver за .hero__cta), переключая класс .is-visible.
+   На десктопе плашка скрыта совсем — там CTA живёт в шапке (.header__cta). */
+
+.mobile-cta { display: none; }
+
+/* ⚠️ Порог 1024, а не 767 как в school. Причина: в шапке лендинга CTA
+   скрывается уже на 1024 (её занимает дата эфира), и без этого правила
+   на планшете 768–1024 не осталось бы ни одной видимой кнопки регистрации —
+   только бургер. Порог совпадает с тем, на котором прячется .header__cta. */
+@media (max-width: 1024px) {
+  .mobile-cta {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Ниже мобильного меню (100), выше контента страницы */
+    z-index: 40;
+    background: var(--color-white);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    /* Спрятана, пока hero-CTA виден: уезжает вниз, гаснет, не ловит клики.
+       visibility в переходе убирает её из a11y-дерева после анимации. */
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s;
+  }
+
+  .mobile-cta.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* width: 100% нужен явно: общее правило .btn растягивает кнопку только
+     с 767, а плашка живёт до 1024 — иначе на планшете кнопка прижалась бы
+     к левому краю полосы. */
+  .mobile-cta .btn {
+    margin: 0;
+    width: 100%;
+  }
+
+  /* Резервируем место под плашку, чтобы она не перекрывала низ футера */
+  body { padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+}

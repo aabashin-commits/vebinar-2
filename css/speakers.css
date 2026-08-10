@@ -1,0 +1,163 @@
+/* speakers.css — «кто ведёт» + программа вебинара в одну секцию, две колонки.
+   Карточка спикера повторяет компонент блока «Обучайтесь комфортно» сайта
+   школы (school/css/staff.css): круглое фото, ряд бейджей (первый — синий
+   solid с ролью, остальные — голубые с фактом), текст с чёрными акцентами
+   на сером. Разница одна: у нас спикеров двое, поэтому акценты размечены
+   прямо в HTML через <span>, без парсера «**…**» и без JS. */
+
+.speakers__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr);
+  align-items: start;
+  gap: var(--gap-cards);
+}
+
+.speakers__people {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 2.2cqw, 40px);
+}
+
+.speakers__head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.speakers__title { line-height: 0.95; }
+
+/* ===== Карточка спикера ===== */
+.speaker {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(16px, 1.8cqw, 32px);
+  padding-top: clamp(20px, 2.2cqw, 40px);
+  border-top: 1px solid var(--color-gray-3);
+}
+
+.speaker__photo {
+  width: clamp(96px, 11cqw, 180px);
+  height: clamp(96px, 11cqw, 180px);
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  background: var(--color-gray-3);
+}
+
+/* Плейсхолдер второго спикера: тот же круг, чтобы раскладка не разъезжала,
+   пока клиент не прислал фото. Заменяется на <img> с теми же классами. */
+.speaker__photo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Кегль меньше, чем был под знак «?»: инициалы из двух букв при 64px
+     упирались в края круга. */
+  font-size: clamp(24px, 3cqw, 44px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  background: var(--color-light-blue);
+  color: var(--color-blue);
+}
+
+.speaker__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.speaker__name { font-size: var(--fs-h4); }
+
+.speaker__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Основной текст карточки — серый; выделенное возвращается в чёрный.
+   Тот же приём, что у школы: акцент делается цветом, а не жирностью. */
+.speaker__lead,
+.speaker__text {
+  font-size: var(--fs-text);
+  line-height: 1.45;
+  color: var(--color-gray-2);
+}
+
+.speaker__accent { color: var(--color-black); }
+
+/* ⚠️ Модификатор --pending теперь означает только «нет фотографии»: имя
+   и должность у спикера настоящие, поэтому приглушать их нельзя — иначе
+   человек читается как незаполненная заглушка. Правило приглушения снято
+   07.08.2026; сам класс оставлен как маркер «ждём фото». */
+
+/* ===== Программа вебинара ===== */
+.speakers__agenda {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.8cqw, 28px);
+  /* Липкая колонка: программа остаётся перед глазами, пока читаешь спикеров.
+     Отступ = высота шапки + воздух. */
+  position: sticky;
+  top: 108px;
+}
+
+.speakers__agenda-title { font-size: var(--fs-h3); line-height: 1; }
+
+.agenda__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.2cqw, 20px);
+  counter-reset: agenda;
+}
+
+/* Номер и текст выровнены по вертикальному центру друг друга: у пунктов
+   в две строки номер иначе «висел» у первой строки. */
+.agenda__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.agenda__num {
+  font-size: var(--fs-small);
+  font-variant-numeric: tabular-nums;
+  padding: 6px 10px;
+  border-radius: var(--radius-btn);
+  background: var(--color-light-blue);
+  color: var(--color-blue-chip);
+}
+
+.agenda__text {
+  font-size: var(--fs-text);
+  line-height: 1.45;
+}
+
+/* ⚠️ У блока вопросов номер такой же, как у остальных. Розовая заливка
+   (.agenda__item--qa) убрана по правке 06.08.2026: акцент выбивался из ряда.
+   Класс --qa в разметке оставлен — вернуть выделение можно одним правилом. */
+
+.agenda__timing {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: clamp(12px, 1.2cqw, 20px);
+  border-top: 1px solid var(--color-gray-3);
+}
+
+@media (max-width: 1024px) {
+  .speakers__layout { grid-template-columns: minmax(0, 1fr); }
+
+  /* В одну колонку липкость только мешает — программа уезжала бы
+     поверх следующей секции. */
+  .speakers__agenda { position: static; }
+}
+
+@media (max-width: 767px) {
+  .speaker {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+  }
+
+  .speakers__agenda-title { font-size: var(--fs-h4); }
+}

@@ -1,0 +1,195 @@
+/* profiles.css — синяя секция «какой профиль подходит вашему ребёнку»:
+   бенто из пяти профилей с плашками нужных предметов + белая врезка
+   «откуда берутся требования».
+
+   Донор — first-class.css вебинара 1 (бенто фактов о 1 классе + режим дня
+   цветными плашками). Сетка, декор и белая врезка перенесены без изменений;
+   плашки предметов используют ту же палитру --chip-* из base.css, что
+   раньше шла под режим дня. Цвет к предмету не привязан — это декор. */
+
+.profiles__card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Декор сетки и волны — те же файлы, что в баннере «Приходите познакомиться» */
+.profiles__decor {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: clamp(200px, 26cqw, 480px);
+  height: auto;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.profiles__decor--wave {
+  top: auto;
+  right: auto;
+  bottom: -6cqw;
+  left: -6cqw;
+  width: clamp(240px, 34cqw, 620px);
+  opacity: 0.22;
+}
+
+.profiles__head {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 62cqw;
+}
+
+.profiles__title {
+  line-height: 0.95;
+  color: var(--color-white);
+}
+
+.profiles__lead { max-width: 54cqw; }
+
+/* ===== Бенто профилей ===== */
+.profiles__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-cards);
+  margin-top: clamp(24px, 2.5cqw, 48px);
+}
+
+.profiles__item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(18px, 1.8cqw, 32px);
+  border-radius: var(--radius-card);
+  /* Полупрозрачная плашка поверх градиента: не сплошной цвет, чтобы
+     градиент секции продолжал читаться сквозь карточки. */
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.profiles__item--wide { grid-column: span 2; }
+
+/* Карточка-мостик «ещё не выбрали» — плотнее соседних, это не пятый профиль,
+   а переход к следующей секции. */
+.profiles__item--bridge { background: rgba(255, 255, 255, 0.2); }
+
+.profiles__item-title {
+  font-size: var(--fs-h4);
+  line-height: 1.15;
+  color: var(--color-white);
+}
+
+/* Плашки предметов. Прижаты к низу карточки (margin-top: auto), чтобы
+   в ряду они стояли на одной линии при заголовках разной длины. */
+.profiles__subjects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.profiles__subject {
+  font-size: var(--fs-small);
+  line-height: 1.2;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}
+
+.profiles__subject--blue   { background: var(--chip-blue-bg);   color: var(--chip-blue-fg); }
+.profiles__subject--peach  { background: var(--chip-peach-bg);  color: var(--chip-peach-fg); }
+.profiles__subject--green  { background: var(--chip-green-bg);  color: var(--chip-green-fg); }
+.profiles__subject--purple { background: var(--chip-purple-bg); color: var(--chip-purple-fg); }
+.profiles__subject--cyan   { background: var(--chip-cyan-bg);   color: var(--chip-cyan-fg); }
+.profiles__subject--mint   { background: var(--chip-mint-bg);   color: var(--chip-mint-fg); }
+.profiles__subject--lime   { background: var(--chip-lime-bg);   color: var(--chip-lime-fg); }
+
+.profiles__item-text {
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-light-blue);
+}
+
+/* ===== Белая врезка «откуда берутся требования» ===== */
+.profiles__req {
+  position: relative;
+  margin-top: clamp(24px, 2.5cqw, 48px);
+  padding: clamp(20px, 2.2cqw, 40px);
+  border-radius: var(--radius-card);
+  background: var(--color-white);
+  color: var(--color-black);
+}
+
+.profiles__req-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: clamp(16px, 1.6cqw, 28px);
+}
+
+.profiles__req-title { font-size: var(--fs-h4); }
+
+.profiles__req-note {
+  max-width: 52cqw;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-gray-1);
+}
+
+.profiles__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-cards);
+}
+
+.profiles__step {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: clamp(14px, 1.4cqw, 24px);
+  border-radius: var(--radius-btn);
+  background: var(--color-surface);
+}
+
+.profiles__step-num {
+  font-size: var(--fs-btn);
+  font-weight: 600;
+  color: var(--color-blue);
+}
+
+.profiles__step-text {
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-gray-1);
+}
+
+/* Сноска про то, что пороги у каждой школы свои. Мелкая и приглушённая —
+   это оговорка к цифрам выше, а не самостоятельное утверждение. */
+.profiles__disclaimer {
+  margin-top: clamp(16px, 1.6cqw, 28px);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-gray-2);
+}
+
+@media (max-width: 1280px) {
+  .profiles__head,
+  .profiles__lead,
+  .profiles__req-note { max-width: none; }
+
+  .profiles__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .profiles__steps { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 767px) {
+  .profiles__grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* На одной колонке «широкие» карточки ничем не отличаются от обычных */
+  .profiles__item--wide { grid-column: auto; }
+
+  .profiles__decor { width: 60vw; }
+  .profiles__decor--wave { width: 80vw; }
+}

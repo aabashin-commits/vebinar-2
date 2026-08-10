@@ -1,0 +1,187 @@
+/* header.css — липкая шапка лендинга: лого, дата вебинара, якоря, CTA.
+   Устроена как шапка school/css/header.css (sticky, белая, своя внутренняя
+   отбивка вместо --page-gap), но проще: выпадающих списков нет, пунктов
+   всего четыре, зато добавлена дата эфира — на лендинге это часть оффера.
+   Бургер включается с 1024 (на сайте школы — с 1280: там пунктов больше). */
+
+.header {
+  position: sticky;
+  top: 0;
+  /* Выше контента секций, ниже мобильного меню (100) и форм Битрикса */
+  z-index: 50;
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+/* Якорь не должен прятаться под липкой шапкой — отступ = высоте шапки */
+html { scroll-padding-top: 88px; }
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.5vw - 8px, 40px);
+  height: 88px;
+  /* Как в school: шапка НЕ следует общему полю страницы, у неё своё */
+  padding-inline: 20px 30px;
+}
+
+.header__logo { flex: none; }
+.header__logo img { height: 29px; width: auto; }
+
+/* Дата эфира рядом с лого — главный факт страницы, он должен быть виден
+   в любой момент прокрутки, а не только в hero. */
+.header__date {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: clamp(16px, 1.5vw, 24px);
+  border-left: 1px solid var(--color-gray-3);
+  line-height: 1.2;
+}
+
+.header__date-label {
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-gray-2);
+}
+
+.header__date-value {
+  font-size: var(--fs-btn);
+  color: var(--color-blue);
+  white-space: nowrap;
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 2.5vw - 8px, 40px);
+  margin-left: auto;
+  font-size: var(--fs-btn);
+}
+
+.header__link {
+  transition: color 0.25s ease;
+  white-space: nowrap;
+}
+
+.header__link:hover { color: var(--color-blue); }
+
+/* Телефон — как в school/css/header.css. Номер статичный: коллтрекинг Roistat
+   на лендинг не переносим (он подменяет номер своим), поэтому здесь просто
+   ссылка tel:. Меняется номер — правится и в бургер-меню (.header__menu-phone),
+   и в финальном CTA (.final-cta__phone), и в футере. */
+.header__phone {
+  flex: none;
+  font-size: var(--fs-btn);
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.header__phone:hover { color: var(--color-blue); }
+
+.header__cta { flex: none; }
+
+.header__burger {
+  display: none;
+  color: var(--color-pink);
+  padding: 8px;
+  margin-right: -8px;
+}
+
+/* ===== Мобильное меню ===== */
+.header__menu {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  overflow-y: auto;
+}
+
+.header__menu.is-open { display: flex; }
+
+.header__menu-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Лого в меню лежит на синем — цветной вариант там не читается,
+   поэтому осветляем его фильтром вместо второго файла. */
+.header__menu-bar img {
+  height: 29px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.header__menu-close { color: var(--color-white); }
+
+.header__menu-date {
+  font-size: var(--fs-h4);
+  color: var(--color-light-blue);
+}
+
+.header__menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: var(--fs-h4);
+}
+
+.header__menu-phone {
+  font-size: var(--fs-h4);
+  color: var(--color-light-blue);
+}
+
+/* Прижимает кнопку к низу экрана, если пунктов мало */
+.header__menu-cta { margin-top: auto; }
+
+/* ===== Адаптив ===== */
+
+/* Дата занимает место, поэтому в шапке лендинга бургер появляется раньше,
+   чем у школы: на 1024 якоря + дата + CTA уже не помещаются без сжатия. */
+@media (max-width: 1024px) {
+  html { scroll-padding-top: 64px; }
+
+  .header__inner { height: 64px; }
+
+  .header__nav,
+  .header__phone,
+  .header__cta { display: none; }
+
+  .header__date { margin-right: auto; }
+
+  .header__burger { display: block; }
+}
+
+@media (max-width: 767px) {
+  html { scroll-padding-top: 56px; }
+
+  .header__inner {
+    height: 56px;
+    gap: 12px;
+    padding-inline: 10px;
+  }
+
+  .header__burger {
+    padding: 0;
+    margin-right: 0;
+  }
+
+  .header__burger svg { width: 30px; height: 30px; }
+
+  /* На 360 дата в одну строку рядом с лого не помещается — оставляем
+     только значение, слово «вебинар» убираем: контекст и так понятен. */
+  .header__date {
+    padding-left: 12px;
+    gap: 0;
+  }
+
+  .header__date-label { display: none; }
+  .header__date-value { font-size: var(--fs-small); }
+}

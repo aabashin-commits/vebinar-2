@@ -1,0 +1,114 @@
+/* solution.css — что предлагает школа: четыре опоры (приём без конкурса,
+   подбор профиля, честная консультация по развилке, системная подготовка
+   к ЕГЭ) и врезка про маленькую группу с психологом.
+
+   Донор — year-path.css вебинара 1 (четыре навыка годовой подготовки).
+   Геометрия перенесена один в один: сетка 2×2 опор + узкая синяя врезка
+   справа, на ≤1280 всё разворачивается в колонку. */
+
+.solution__head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 62cqw;
+}
+
+.solution__title { line-height: 0.95; }
+
+.solution__lead { max-width: 54cqw; }
+
+/* ===== Опоры + врезка ===== */
+.solution__bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr);
+  gap: var(--gap-cards);
+  margin-top: clamp(24px, 2.5cqw, 44px);
+}
+
+.solution__pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-cards);
+}
+
+.solution__pillar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(18px, 1.8cqw, 30px);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-light-blue);
+}
+
+.solution__pillar-title {
+  font-size: var(--fs-h4);
+  line-height: 1.1;
+  color: var(--color-blue);
+}
+
+.solution__pillar-text {
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-gray-1);
+}
+
+/* Врезка про маленькую группу и психолога — синяя, чтобы читалась как
+   акцент, а не как пятая опора. */
+.solution__group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: clamp(20px, 2.2cqw, 40px);
+  border-radius: var(--radius-card);
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  overflow: hidden;
+}
+
+/* Мальчик из блока «нет домашних заданий» школы, прижат к правому нижнему углу.
+   ⚠️ Здесь ПОЛНЫЙ кадр 424×272 (в school это boy-mobile.webp), а не десктопный
+   кроп 424×220: у кропа макушка обрезана в самом файле. В school он стоит
+   `top: 0`, и срез уходит за верхнюю кромку карточки — там его не видно.
+   У нас картинка прижата к низу, и обрезанная голова оказывалась на виду. */
+.solution__boy {
+  position: absolute;
+  right: calc(var(--card-pad) * -0.4);
+  bottom: 0;
+  width: clamp(140px, 16cqw, 240px);
+  height: auto;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.solution__group-title { font-size: var(--fs-h4); }
+
+.solution__group-text {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--color-light-blue);
+  /* Оставляем место под картинку в углу */
+  max-width: 78%;
+  /* Отбивка снизу, чтобы текст не наезжал на мальчика */
+  padding-bottom: clamp(40px, 6cqw, 90px);
+}
+
+@media (max-width: 1280px) {
+  .solution__head,
+  .solution__lead { max-width: none; }
+
+  .solution__bottom { grid-template-columns: minmax(0, 1fr); }
+
+  .solution__group-text { max-width: 62%; }
+}
+
+@media (max-width: 767px) {
+  .solution__pillars { grid-template-columns: minmax(0, 1fr); }
+
+  .solution__group-text {
+    max-width: 100%;
+    padding-bottom: clamp(60px, 24vw, 110px);
+  }
+
+  .solution__boy { width: 150px; }
+}

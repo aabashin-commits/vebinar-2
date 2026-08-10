@@ -1,0 +1,204 @@
+/* crunch.css — крючок вебинара: крупная цитата + сравнение «что слышит
+   родитель» против «что происходит на самом деле». Главный приём блока:
+   слева крестиками идут объяснения, которые вешают на ребёнка, справа
+   галочками — арифметика, из-за которой вырос конкурс. Родитель за секунду
+   видит, что дело не в его ребёнке.
+
+   Донор — hook.css вебинара 1 (там сравнивались «чему учат на подготовке»
+   и «настоящая готовность»); геометрия и декор перенесены без изменений,
+   добавлена врезка .crunch__note. */
+
+.crunch__card {
+  position: relative;
+  /* Декор-вихрь уходит за край карточки */
+  overflow: hidden;
+}
+
+/* Вихрь из блока FAQ школы — тот же файл, тот же приём: крупное светлое
+   пятно в углу, чтобы белая карточка не читалась плоской. */
+.crunch__decor {
+  position: absolute;
+  top: -30cqw;
+  right: -20cqw;
+  width: 80cqw;
+  height: auto;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.crunch__quote {
+  position: relative;
+  max-width: 62cqw;
+}
+
+/* Открывающая кавычка-«ёлочка» крупным планом слева от цитаты.
+   Не текстом в разметке: это декор, скринридеру он не нужен. */
+.crunch__quote::before {
+  content: '«';
+  position: absolute;
+  top: -0.35em;
+  left: -0.55em;
+  font-size: clamp(80px, 9cqw, 180px);
+  line-height: 1;
+  color: var(--color-light-blue);
+  pointer-events: none;
+}
+
+.crunch__quote-text {
+  position: relative;
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+}
+
+.crunch__after {
+  position: relative;
+  max-width: 56cqw;
+  margin-top: clamp(20px, 2cqw, 36px);
+  font-size: var(--fs-h4);
+  line-height: 1.35;
+  color: var(--color-gray-1);
+}
+
+/* ===== Сравнение ===== */
+.crunch__compare {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-cards);
+  margin-top: clamp(30px, 3.5cqw, 60px);
+}
+
+.crunch__col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 1.6cqw, 24px);
+  padding: clamp(20px, 2.2cqw, 40px);
+  border-radius: var(--radius-card);
+}
+
+/* Левая — приглушённая: это объяснения, которые не выдерживают проверки */
+.crunch__col--myth {
+  background: var(--color-surface);
+  color: var(--color-gray-2);
+}
+
+.crunch__col--fact {
+  background: var(--color-light-blue);
+}
+
+.crunch__col-title {
+  font-size: var(--fs-h4);
+  line-height: 1.2;
+}
+
+.crunch__col--myth .crunch__col-title { color: var(--color-gray-1); }
+
+.crunch__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1cqw, 16px);
+}
+
+.crunch__item {
+  font-size: var(--fs-text);
+  line-height: 1.4;
+}
+
+/* ⚠️ Зачёркивания в левой колонке НЕТ (унаследовано из вебинара 1, где его
+   убрали 06.08.2026): линия шла по середине строчных букв, а серый текст
+   на светлом фоне давал контраст 2.6:1 при норме 4.5:1 — пункты становились
+   нечитаемыми. Смысл «это не так» несёт крестик слева, зеркально галочкам. */
+.crunch__item--cross {
+  display: flex;
+  /* Текст по центру относительно крестика — так же, как в списке с галочками.
+     Здесь пункты в две строки, поэтому flex-start, а не center. */
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--color-gray-1);
+}
+
+/* Красный крестик: «это не объяснение» читается сразу, без чтения текста */
+.crunch__item--cross svg {
+  flex: none;
+  color: var(--color-error);
+}
+
+.crunch__item--check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--color-black);
+}
+
+.crunch__item--check img { flex: none; }
+
+.crunch__col-note {
+  margin-top: auto;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  /* Явный цвет: от .crunch__col--myth прилетал --color-gray-2, на светлой
+     плашке подпись почти пропадала (та же причина, что у пунктов списка). */
+  color: var(--color-gray-1);
+}
+
+.crunch__col--fact .crunch__col-note { color: var(--color-blue-chip); }
+
+/* ===== Врезка про общеобразовательные классы =====
+   Вторая мысль темы: классы без конкурса существуют, но открыты не везде.
+   Идёт отдельной полосой, а не пунктом списка: это не «факт из арифметики»,
+   а практический вывод, с которым родитель пойдёт искать школу. */
+.crunch__note {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(14px, 1.4cqw, 22px);
+  margin-top: var(--gap-cards);
+  padding: clamp(20px, 2.2cqw, 36px);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-light-blue);
+}
+
+.crunch__note-icon {
+  flex: none;
+  color: var(--color-blue);
+}
+
+.crunch__note-title {
+  font-size: var(--fs-h4);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.crunch__note-text {
+  font-size: var(--fs-text);
+  line-height: 1.5;
+  color: var(--color-gray-1);
+}
+
+@media (max-width: 1024px) {
+  .crunch__quote,
+  .crunch__after { max-width: none; }
+
+  .crunch__decor {
+    top: -40cqw;
+    width: 110cqw;
+  }
+}
+
+@media (max-width: 767px) {
+  .crunch__quote::before {
+    /* На узком экране крупная кавычка съедала первую строку цитаты */
+    font-size: 64px;
+    top: -0.25em;
+    left: -0.15em;
+  }
+
+  .crunch__quote-text { font-size: var(--fs-h4); }
+
+  .crunch__after { font-size: var(--fs-text); }
+
+  .crunch__compare { grid-template-columns: minmax(0, 1fr); }
+
+  /* Иконка врезки на 360 съедает треть строки — прячем, текст самодостаточен */
+  .crunch__note-icon { display: none; }
+}

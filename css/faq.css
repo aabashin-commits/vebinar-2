@@ -1,0 +1,122 @@
+/* faq.css — аккордеон вопросов. Разметку строит js/faq.js, там же тексты.
+   Механика раскрытия — та же, что на сайте школы: grid-template-rows 0fr → 1fr.
+   Это работает с любой высотой ответа, в отличие от max-height с потолком «на глаз». */
+
+.faq__card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  gap: clamp(20px, 3cqw, 60px);
+  align-items: start;
+}
+
+.faq__title {
+  line-height: 0.95;
+  /* Заголовок остаётся у левого края, пока листаешь длинный список вопросов */
+  position: sticky;
+  top: 108px;
+}
+
+.faq__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--color-gray-3);
+}
+
+.faq__item:first-child { border-top: 1px solid var(--color-gray-3); }
+
+.faq__question {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  /* Место под кнопку-шеврон, вынесенную из потока */
+  padding: clamp(16px, 1.6cqw, 26px) 70px clamp(16px, 1.6cqw, 26px) 0;
+  text-align: left;
+  font-size: var(--fs-h4);
+  line-height: 1.2;
+  transition: color 0.25s ease;
+}
+
+.faq__question:hover { color: var(--color-blue); }
+
+/* Шеврон вынесен из потока — иначе его 40px влияли бы на высоту строки
+   вопроса. Клик ловит кнопка-родитель, сам шеврон некликабелен. */
+.faq__toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-light-blue);
+  border-radius: var(--radius-pill);
+  color: var(--color-blue-2);
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.faq__toggle svg { transition: transform 0.3s ease; }
+
+/* Закрытый айтем — шеврон смотрит вниз (иконка нарисована «вверх») */
+.faq__item:not(.faq__item--open) .faq__toggle svg { transform: rotate(180deg); }
+
+.faq__item:not(.faq__item--open) .faq__question:hover .faq__toggle {
+  border-color: var(--color-blue);
+  color: var(--color-blue);
+}
+
+.faq__item--open .faq__toggle {
+  background: var(--color-blue);
+  border-color: var(--color-blue);
+  color: var(--color-white);
+}
+
+/* Раскрытие через grid-template-rows — высота ответа может быть любой */
+.faq__answer-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.faq__item--open .faq__answer-wrap { grid-template-rows: 1fr; }
+
+/* min-height: 0 обязателен: без него грид-элемент не сжимается до нуля
+   и ответ виден в закрытом состоянии. */
+.faq__answer {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.faq__answer p {
+  padding-bottom: clamp(16px, 1.6cqw, 26px);
+  padding-right: 70px;
+  font-size: var(--fs-text);
+  line-height: 1.5;
+  color: var(--color-gray-1);
+}
+
+@media (max-width: 1024px) {
+  .faq__card { grid-template-columns: minmax(0, 1fr); }
+
+  .faq__title { position: static; }
+}
+
+@media (max-width: 767px) {
+  .faq__question {
+    font-size: var(--fs-text);
+    padding-right: 54px;
+  }
+
+  .faq__toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .faq__answer p { padding-right: 0; }
+}

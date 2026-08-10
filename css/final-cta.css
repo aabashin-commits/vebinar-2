@@ -1,0 +1,101 @@
+/* final-cta.css — финальный баннер с обещанием из ТЗ, вторым таймером,
+   крупной кнопкой и телефоном. Телефон здесь не для красоты: пока CRM-форма
+   Битрикса не подключена, это единственный рабочий способ связаться,
+   и он должен быть виден рядом с кнопкой (см. js/main.js, fallback openForm). */
+
+.final-cta__banner {
+  position: relative;
+  padding: clamp(36px, 5cqw, 90px) var(--hero-pad);
+  border-radius: var(--radius-card);
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  overflow: hidden;
+}
+
+/* Отклик на клик по CTA, пока CRM-форма не подключена: баннер коротко
+   вспыхивает рамкой. Класс вешает js/main.js (fallback openForm). */
+.final-cta__banner.is-flash {
+  animation: final-cta-flash 0.9s ease;
+}
+
+@keyframes final-cta-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(255, 42, 127, 0.6); }
+  100% { box-shadow: 0 0 0 18px rgba(255, 42, 127, 0); }
+}
+
+.final-cta__decor {
+  position: absolute;
+  top: -4cqw;
+  right: -4cqw;
+  width: clamp(200px, 28cqw, 520px);
+  height: auto;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.final-cta__decor--wave {
+  top: auto;
+  right: auto;
+  bottom: -8cqw;
+  left: -6cqw;
+  width: clamp(240px, 36cqw, 660px);
+  opacity: 0.2;
+}
+
+.final-cta__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(16px, 1.8cqw, 30px);
+  text-align: center;
+}
+
+/* line-height здесь заметно больше базовых 0.9 у h2: внутри заголовка есть
+   подсветка .hl, а она рисуется с вертикальным padding. При плотной строке
+   плашка наезжала на строку выше и перекрывала её текст. */
+.final-cta__title {
+  max-width: 22ch;
+  line-height: 1.2;
+  color: var(--color-white);
+}
+
+.final-cta__muted {
+  color: var(--color-light-blue);
+  /* Вторая строка обещания тише первой — она пояснение, а не сам оффер */
+  font-size: 0.62em;
+}
+
+.final-cta__date {
+  font-size: var(--fs-h4);
+  color: var(--color-light-blue);
+}
+
+.final-cta__btn {
+  /* Кнопка на телефоне растянута общим правилом .btn (layout.css, ≤767);
+     на десктопе держим её по содержимому. */
+  align-self: center;
+}
+
+.final-cta__phone {
+  font-size: var(--fs-text);
+  color: var(--color-light-blue);
+}
+
+.final-cta__phone a {
+  color: var(--color-white);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  transition: border-color 0.25s ease;
+}
+
+.final-cta__phone a:hover { border-color: var(--color-white); }
+
+@media (max-width: 767px) {
+  .final-cta__title { max-width: none; }
+
+  /* На телефоне .btn растянут на всю ширину — контейнер должен это позволить */
+  .final-cta__content { align-items: stretch; }
+
+  .final-cta__decor { width: 60vw; }
+  .final-cta__decor--wave { width: 80vw; }
+}

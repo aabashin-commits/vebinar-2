@@ -1,0 +1,226 @@
+/* layout.css — контейнер и общие компоненты: кнопки, пиллы, карточки-секции,
+   заголовки. Перенесено из school/css/layout.css; добавлены компоненты, которые
+   на сайте школы живут внутри блоков, а здесь нужны сразу нескольким секциям
+   (.section-card, .pill, .eyebrow, .lead, .muted). */
+
+.container {
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+  padding-inline: var(--page-gap);
+}
+
+/* Единая база для резиновой геометрии блоков: content-box контейнера = ширине
+   секции-карточки, поэтому 1cqw внутри любого блока = 1% ширины его карточки
+   на ЛЮБОЙ ширине экрана. Вся декоративная геометрия считается от этой единицы.
+
+   ⚠️ Не вешать на body и на контейнер шапки: container-type создаёт блок
+   позиционирования для position: fixed, и мобильное меню перестало бы
+   раскрываться на весь экран. */
+main .container,
+footer .container {
+  container-type: inline-size;
+}
+
+/* ═══════════════════ Кнопки ═══════════════════
+   Отступы резиновые по контрольным точкам школы: 22/40 на 1920, 14/30 на 1600
+   и ниже. Стрелка на ховере поворачивается из → в ↗ — фирменная деталь сайта. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 0.625vw, 12px);
+  font-size: var(--fs-btn);
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  padding: clamp(14px, 2.5vw - 26px, 22px) clamp(30px, 3.125vw - 20px, 40px);
+  border-radius: var(--radius-btn);
+  border: 1px solid transparent;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn__arrow {
+  flex: none;
+  transition: transform 0.25s ease;
+}
+
+.btn:hover .btn__arrow { transform: rotate(-45deg); }
+
+.btn--primary {
+  background: var(--color-pink);
+  color: var(--color-white);
+}
+
+.btn--blue {
+  background: var(--color-blue);
+  color: var(--color-white);
+}
+
+.btn--blue:hover { background: var(--color-blue-chip); }
+
+.btn--outline {
+  border-color: var(--color-pink);
+  color: var(--color-pink);
+}
+
+.btn--white {
+  background: var(--color-white);
+  color: var(--color-pink);
+}
+
+.btn--outline:hover,
+.btn--white:hover {
+  background: var(--color-pink);
+  color: var(--color-white);
+}
+
+/* Компактная кнопка (шапка, мелкие CTA) */
+.btn--small {
+  padding: clamp(10px, 1.25vw - 10px, 14px) clamp(20px, 1.25vw, 24px);
+}
+
+/* Крупная кнопка финального CTA — единственное место, где кнопка должна
+   «весить» больше остальных на странице. */
+.btn--lg {
+  font-size: clamp(16px, 1.25vw, 24px);
+  padding: clamp(16px, 1.5vw, 26px) clamp(32px, 3.4vw, 56px);
+}
+
+/* ═══════════════════ Общие компоненты секций ═══════════════════ */
+
+/* Белая карточка-секция — основной «лист» страницы (как у большинства блоков школы) */
+.section-card {
+  background: var(--color-white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--card-pad);
+}
+
+/* Синяя карточка-секция на фирменном градиенте */
+.section-card--accent {
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  box-shadow: none;
+}
+
+/* Надзаголовок над h2 — мелкая подпись-«рубрика» */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-blue);
+}
+
+.section-card--accent .eyebrow { color: var(--color-light-blue); }
+
+/* Приглушённая часть заголовка/текста — приём школы: во всех крупных
+   заголовках часть строки уходит в серый, акцент остаётся чёрным. */
+.muted { color: var(--color-gray-2); }
+.section-card--accent .muted { color: var(--color-light-blue); }
+
+/* Подзаголовок секции под h2 */
+.lead {
+  font-size: var(--fs-h4);
+  line-height: 1.3;
+  color: var(--color-gray-1);
+}
+
+.section-card--accent .lead { color: var(--color-light-blue); }
+
+/* Подсветка-маркер внутри заголовка. Не фон элемента, а box-shadow по строкам:
+   так подсветка ложится по каждой строке текста, а не одним прямоугольником
+   на весь блок (приём из hero школы). */
+.hl {
+  background: var(--color-pink);
+  color: var(--color-white);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0.06em 0.2em;
+  border-radius: 0.12em;
+}
+
+.hl--blue { background: var(--color-blue); }
+.hl--soft {
+  background: var(--color-light-blue);
+  color: var(--color-black);
+}
+
+/* Пилла-бейдж. --solid: синяя заливка + белый текст (роль спикера, статус);
+   по умолчанию — голубая плашка с синим текстом (факт, стаж). */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-small);
+  line-height: 1.2;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  background: var(--color-blue-chip-bg);
+  color: var(--color-blue-chip);
+  white-space: nowrap;
+}
+
+.pill--solid {
+  background: var(--color-blue);
+  color: var(--color-white);
+}
+
+.pill--pink {
+  background: var(--color-pink);
+  color: var(--color-white);
+}
+
+.pill--ghost {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-white);
+}
+
+/* Скрытый прокси-элемент для CRM-формы Битрикс24 (см. js/bitrix.js).
+   Визуально скрыт, но остаётся в потоке — так лоадер Битрикса гарантированно
+   к нему привяжется (элемент с display:none он мог бы пропустить). */
+.b24-trigger {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+/* Только для скринридеров (подписи к таймеру, легенды) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Вертикальный ритм страницы. Каждая секция сама себя отбивает сверху —
+   так порядок секций можно менять, не трогая отступы соседей. */
+main > section { margin-top: var(--section-gap); }
+main > section:first-child { margin-top: 0; }
+
+@media (max-width: 767px) {
+  /* В мобильном макете школы все CTA — во всю ширину контейнера */
+  .btn { width: 100%; }
+
+  .btn__arrow {
+    width: 20px;
+    height: 20px;
+  }
+
+  .pill { padding: 8px 16px; }
+}

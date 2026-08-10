@@ -1,0 +1,164 @@
+/* rights.css — давление школ в сторону колледжа и права родителей.
+   Новый блок, донора в вебинаре 1 нет.
+
+   Композиция: сверху лента реальных фраз, которые слышат родители, ниже
+   три карточки с тем, как устроен приём на самом деле, и плашка доверия
+   «у нас — без конкурса и без давления».
+
+   ⚠️ Карточек ТРИ, а не одна, и это принципиально. Обычный и профильный
+   10 класс живут по разным правилам: в профильный индивидуальный отбор
+   законен, и слить всё в «оценки роли не играют» нельзя — родитель придёт
+   на эфир с претензией, что его ввели в заблуждение. */
+
+.rights__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(24px, 2.5cqw, 48px);
+  text-align: center;
+}
+
+.rights__title { line-height: 0.95; }
+
+.rights__lead { max-width: 76cqw; }
+
+/* ===== Лента фраз давления ===== */
+/* Приглушённые серые «реплики» — читаются как чужие слова, а не как
+   утверждение страницы. Кавычки-ёлочки стоят прямо в разметке: они часть
+   цитаты, а не декор. */
+.rights__quotes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(8px, 1cqw, 14px);
+  margin-bottom: clamp(24px, 2.5cqw, 48px);
+}
+
+/* ⚠️ Фон белый, а НЕ --color-surface. Секция лежит прямо на фоне страницы
+   без карточки-подложки, а --color-surface и --color-page-bg — один и тот же
+   #F8F8F8: плашки полностью растворялись, оставался висеть серый текст.
+   Белая заливка с серой обводкой даёт «реплику» и на фоне страницы, и внутри
+   карточки, если блок когда-нибудь переедет. */
+.rights__quote {
+  font-size: var(--fs-text);
+  line-height: 1.3;
+  padding: clamp(10px, 1cqw, 14px) clamp(16px, 1.6cqw, 24px);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-3);
+  color: var(--color-gray-1);
+}
+
+/* ===== Три карточки ===== */
+.rights__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--gap-cards);
+}
+
+.rights__card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.2cqw, 20px);
+  padding: clamp(24px, 2.5cqw, 44px);
+  border-radius: var(--radius-card);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+.rights__tag {
+  align-self: flex-start;
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--color-blue-chip-bg);
+  color: var(--color-blue-chip);
+}
+
+/* Карточка про профильный класс — с песочным ярлыком: это оговорка,
+   а не хорошая новость, и цветом она должна отличаться от двух соседних. */
+.rights__card--caveat .rights__tag {
+  background: var(--chip-peach-bg);
+  color: var(--chip-peach-fg);
+}
+
+.rights__card-title {
+  font-size: var(--fs-h4);
+  line-height: 1.15;
+}
+
+.rights__card-text {
+  font-size: var(--fs-text);
+  line-height: 1.5;
+  color: var(--color-gray-1);
+}
+
+/* Вывод карточки — отбит линией, прижат к низу: так выводы трёх карточек
+   стоят на одной линии при разной длине текста над ними. */
+.rights__card-note {
+  margin-top: auto;
+  padding-top: clamp(12px, 1.2cqw, 20px);
+  border-top: 1px solid var(--color-gray-3);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-blue-chip);
+}
+
+/* ===== Плашка доверия ===== */
+.rights__trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.4cqw, 20px);
+  margin-top: var(--gap-cards);
+  padding: clamp(20px, 2.2cqw, 36px);
+  border-radius: var(--radius-card);
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  text-align: center;
+}
+
+.rights__trust-icon {
+  flex: none;
+  color: var(--color-light-blue);
+}
+
+.rights__trust-text {
+  font-size: var(--fs-h4);
+  line-height: 1.25;
+}
+
+/* Сноска: процедура отбора у каждого региона и каждой школы своя.
+   Мелкая и приглушённая — оговорка к сказанному выше. */
+.rights__disclaimer {
+  margin-top: clamp(14px, 1.4cqw, 22px);
+  text-align: center;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-gray-2);
+}
+
+@media (max-width: 1280px) {
+  .rights__lead { max-width: none; }
+
+  .rights__grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* В столбик прижим вывода к низу теряет смысл: выравнивать больше не с чем,
+     а лишний воздух растягивал бы первую карточку. */
+  .rights__card-note { margin-top: 0; }
+}
+
+@media (max-width: 767px) {
+  .rights__quote { font-size: var(--fs-small); }
+
+  .rights__trust {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rights__trust-text { font-size: var(--fs-text); }
+}

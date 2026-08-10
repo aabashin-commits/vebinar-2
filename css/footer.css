@@ -1,0 +1,119 @@
+/* footer.css — лёгкий футер лендинга: лого, меню-якоря, контакты, реквизиты.
+   Полного футера сайта школы здесь не нужно (бейджи рейтингов, лицензия,
+   документы) — лендинг решает одну задачу, лишние ссылки уводят с неё. */
+
+.footer {
+  margin-top: var(--section-gap);
+  background: var(--gradient-accent);
+  color: var(--color-white);
+}
+
+/* Три зоны распределены по ширине равномерно: лого слева, якоря по центру,
+   контакты справа. ⚠️ Раньше стояло `1fr auto auto`: первая колонка забирала
+   всё свободное место, якоря и контакты слипались у правого края,
+   а посередине футера зияла пустота почти в половину ширины. */
+.footer__inner {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+  gap: clamp(24px, 3cqw, 60px);
+  padding-block: clamp(40px, 4cqw, 80px);
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.footer__logo {
+  width: clamp(180px, 15cqw, 296px);
+  height: auto;
+}
+
+.footer__tagline {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--color-light-blue);
+}
+
+/* Якоря в две колонки: шесть пунктов в один столбец делали футер высоким
+   и узким, из-за чего центральная зона выглядела «ниткой». */
+.footer__nav {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 12px clamp(24px, 3cqw, 60px);
+  align-content: start;
+  font-size: var(--fs-text);
+}
+
+.footer__link { transition: color 0.25s ease; }
+.footer__link:hover { color: var(--color-light-blue); }
+
+.footer__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer__phone {
+  font-size: var(--fs-h4);
+  white-space: nowrap;
+}
+
+.footer__addresses {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: var(--fs-small);
+  line-height: 1.4;
+  color: var(--color-light-blue);
+}
+
+/* Реквизиты — во всю ширину под тремя колонками */
+.footer__fine {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: clamp(20px, 2cqw, 36px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--color-light-blue);
+}
+
+.footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(12px, 1.5cqw, 30px);
+}
+
+.footer__doc {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  transition: border-color 0.25s ease;
+}
+
+.footer__doc:hover { border-color: var(--color-white); }
+
+@media (max-width: 1024px) {
+  /* Две равные колонки: space-between с колонками auto здесь дал бы
+     разъезжающиеся зоны — места уже мало. */
+  .footer__inner {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer__inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: stretch;
+  }
+
+  /* Две колонки якорей на 360 дают по одному слову в строке */
+  .footer__nav { grid-template-columns: minmax(0, 1fr); }
+
+  .footer__phone { font-size: var(--fs-text); }
+}

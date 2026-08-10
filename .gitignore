@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Артефакты браузерных проверок (Playwright MCP)
+.playwright-mcp/
+*.png.tmp
+
+# Локальные настройки редакторов
+.vscode/
+.idea/
+
+# Временные файлы
+_tmp-*
+*-tmp.*

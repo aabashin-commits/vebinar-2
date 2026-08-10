@@ -1,0 +1,246 @@
+/* hero.css — первый экран: синяя панель на фирменном градиенте, крупный H1,
+   мета-строка эфира, обратный отсчёт, CTA со стикером и вырезка
+   старшеклассницы справа. Композиция повторяет hero сайта школы: панель
+   со скруглением внутри .container, текст слева, вырезка без фона прижата
+   к правому нижнему углу.
+
+   ⚠️ Колонка картинки уже, чем в вебинаре 1 (0.42fr против 0.72fr).
+   Причина — размер исходника: там вырезка 848×1372 позволяла ~430px по ширине,
+   здесь teen.webp всего 680×628, и потолок под Retina — 340px (см. .hero__teen).
+   Широкая колонка вокруг мелкой картинки давала бы пустое синее поле. */
+
+.hero__panel {
+  position: relative;
+  display: grid;
+  /* Текст держит читаемую ширину, картинка забирает остаток. minmax(0,…)
+     обязателен: без него длинные слова в тексте распирают колонку. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr);
+  align-items: end;
+  gap: var(--gap-cards);
+  min-height: clamp(520px, 40cqw, 790px);
+  padding: var(--hero-pad);
+  border-radius: var(--radius-card);
+  background: var(--gradient-accent);
+  color: var(--color-white);
+  /* Вырезка намеренно уходит за нижний край панели — обрезаем по скруглению */
+  overflow: hidden;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(16px, 1.6cqw, 28px);
+  /* Панель выровнена по низу (align-items: end) ради картинки; текст же должен
+     стоять сверху, иначе при высокой вырезке он уезжает вниз. */
+  align-self: start;
+  max-width: 72cqw;
+}
+
+.hero__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero__title {
+  /* Заголовок берёт --fs-h1 из base.css; здесь только цвет и запрет
+     автопереносов — переносы расставлены вручную <br> по композиции. */
+  color: var(--color-white);
+}
+
+/* line-height с запасом под подсветку .hl: с плотной строкой розовая плашка
+   «за год» почти касалась строки ниже. */
+.hero__subtitle {
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+  color: var(--color-light-blue);
+}
+
+.hero__desc {
+  font-size: var(--fs-text);
+  line-height: 1.5;
+  max-width: 52cqw;
+  color: var(--color-light-blue);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(12px, 1.2cqw, 24px);
+  font-size: var(--fs-small);
+}
+
+.hero__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-white);
+}
+
+.hero__meta-item svg {
+  flex: none;
+  color: var(--color-blue-2);
+}
+
+/* ===== Таймер ===== */
+.hero__timer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hero__timer-title {
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-light-blue);
+}
+
+/* ===== CTA ===== */
+.hero__cta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.2cqw, 20px);
+  flex-wrap: wrap;
+}
+
+/* Искорки — тот же декор, что у CTA школы: маленький «блик» у угла кнопки */
+.hero__spark {
+  position: absolute;
+  top: -14px;
+  left: -12px;
+  width: clamp(16px, 1.2cqw, 20px);
+  height: auto;
+  pointer-events: none;
+}
+
+.hero__sticker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-small);
+  padding: clamp(10px, 1vw, 14px) clamp(18px, 1.6vw, 24px);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  color: var(--color-pink);
+  white-space: nowrap;
+}
+
+/* Искорка стикера — СНИЗУ справа, как в school (bottom: -10px; right: -22px).
+   Стояла сверху (top: -12px) и «висела» выше стикера, оторванная от него. */
+.hero__spark--sticker {
+  position: absolute;
+  top: auto;
+  bottom: -10px;
+  right: -22px;
+  left: auto;
+  width: clamp(20px, 1.5cqw, 27px);
+}
+
+/* ===== Вырезка старшеклассницы ===== */
+/* Вырезка стоит по центру своей колонки, а не прижата к правому краю:
+   так синего поля слева и справа от неё примерно поровну.
+
+   Отрицательные поля:
+   - снизу — вырезка намеренно «выходит» за край панели и подрезается
+     её скруглением;
+   - справа на 0.75 поля панели — центр колонки лежит левее визуального
+     центра свободного места, потому что справа от колонки остаётся ещё
+     padding панели (80px на 1920). Без этой поправки слева от фигуры
+     оставалось бы заметно меньше воздуха, чем справа. */
+.hero__media {
+  position: relative;
+  align-self: end;
+  justify-self: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-block-end: calc(var(--hero-pad) * -1);
+  margin-inline-end: calc(var(--hero-pad) * -0.75);
+}
+
+/* ⚠️ ПОТОЛОК 340px — ЖЁСТКИЙ, поднимать нельзя.
+   Правило проекта: CSS-размер × 2 ≤ натуральный размер файла, иначе на экране
+   с DPR 2 браузер просит больше физических пикселей, чем есть, и картинка
+   «пикселит». teen.webp — 680×628, значит 340 × 2 = 680 ровно в размер.
+   Здесь масштабируем по ШИРИНЕ (а не по высоте, как в вебинаре 1): у этого
+   кадра меньшая сторона — высота, и привязка к height дала бы апскейл
+   по ширине. Придёт вырезка большего размера — потолок можно поднять
+   пропорционально её ширине. */
+.hero__teen {
+  width: min(30cqw, 340px);
+  height: auto;
+  object-fit: contain;
+  object-position: bottom;
+  /* Мягкая тень под вырезкой, чтобы она не «висела» на градиенте */
+  filter: drop-shadow(0 18px 40px rgba(11, 24, 84, 0.35));
+}
+
+/* ===== Адаптив ===== */
+
+/* До 1024 картинка ещё помещается рядом, но текстовая колонка уже должна
+   занимать почти всю ширину — иначе строки рвутся по два слова. */
+@media (max-width: 1280px) {
+  .hero__content { max-width: 76cqw; }
+  .hero__desc { max-width: 60cqw; }
+}
+
+@media (max-width: 1024px) {
+  .hero__panel {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+
+  .hero__content {
+    max-width: none;
+    gap: 20px;
+  }
+
+  .hero__desc { max-width: 100%; }
+
+  /* Вырезка уходит в фон: перекрывать текст ей нельзя, а места на отдельную
+     колонку уже нет. Прижата к правому нижнему углу и приглушена. */
+  .hero__media {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    opacity: 0.28;
+    pointer-events: none;
+  }
+
+  /* ⚠️ Потолок остаётся 340px — тот же предел по Retina, что и на десктопе
+     (340 × 2 = 680 = ширина файла). cqw здесь меняется на vw: родитель ушёл
+     в position: absolute, а контейнерная единица считается от .container
+     и на планшете давала бы вырезку крупнее допустимого. */
+  .hero__teen { width: min(40vw, 340px); }
+}
+
+@media (max-width: 767px) {
+  .hero__panel { padding: var(--hero-pad) 20px 30px; }
+
+  .hero__subtitle { font-size: var(--fs-h4); }
+
+  .hero__meta {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero__cta {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  /* Стикер под кнопкой во всю ширину — кнопка на телефоне тоже растянута */
+  .hero__sticker { justify-content: center; }
+
+  .hero__spark { display: none; }
+
+  /* На телефоне вырезка мешает даже приглушённой: текста много, он идёт
+     в одну колонку и заходит на неё. */
+  .hero__media { display: none; }
+}

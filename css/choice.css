@@ -1,0 +1,147 @@
+/* choice.css — развилка «колледж или 10 класс»: два равноправных пути
+   рядом, у каждого свой плюс и своя цена. Под карточками — пилла «правильного
+   ответа нет» и честный вывод.
+
+   Донор — extremes.css вебинара 1 («две крайности» родителей).
+   ⚠️ Наклон карточек на ±1.2° из донора УБРАН намеренно. Там он читался как
+   качели, которые не в равновесии: оба пути были ошибкой. Здесь ошибки нет —
+   колледж и 10 класс равноправны, и перекос давал бы обратный сигнал.
+   Вместо наклона карточки разведены цветом ярлыка. */
+
+.choice__head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: clamp(24px, 2.5cqw, 48px);
+  text-align: center;
+  align-items: center;
+}
+
+.choice__title { line-height: 0.95; }
+
+/* Две равные колонки. Средней колонки под пиллу нет — она съедала бы ~157px,
+   карточки становились уже, а заголовки рвались на три коротких строки
+   (грабли донора). Пилла идёт отдельной строкой снизу. */
+.choice__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--gap-cards);
+}
+
+.choice__card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.2cqw, 20px);
+  padding: clamp(24px, 2.5cqw, 48px);
+  border-radius: var(--radius-card);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+/* Ярлык пути. Цвет — единственное, чем карточки различаются визуально:
+   оба пути «рабочие», поэтому ни один не приглушаем серым. */
+.choice__label {
+  align-self: flex-start;
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+}
+
+.choice__card--college .choice__label {
+  background: var(--chip-peach-bg);
+  color: var(--chip-peach-fg);
+}
+
+.choice__card--school .choice__label {
+  background: var(--color-blue-chip-bg);
+  color: var(--color-blue-chip);
+}
+
+/* Переносы отдаём браузеру: ручные <br> рассчитаны на одну ширину и на
+   другой раскладке рвут заголовок. balance выравнивает строки по длине. */
+.choice__card-title {
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.choice__text {
+  font-size: var(--fs-text);
+  line-height: 1.5;
+  color: var(--color-gray-1);
+}
+
+/* ===== Плюс и цена ===== */
+/* Отбиты линией сверху, чтобы читались как вывод, а не продолжение абзаца.
+   Первый из пары прижат к низу карточки (margin-top: auto) — так пары
+   в обеих карточках стоят на одной линии при разной длине описаний. */
+.choice__point {
+  padding-top: clamp(12px, 1.2cqw, 20px);
+  border-top: 1px solid var(--color-gray-3);
+  font-size: var(--fs-text);
+  line-height: 1.4;
+}
+
+.choice__point--plus { margin-top: auto; }
+
+.choice__point-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.choice__point--plus .choice__point-label { color: var(--chip-green-fg); }
+.choice__point--minus .choice__point-label { color: var(--color-gray-2); }
+
+/* ===== Вывод ===== */
+/* Пилла по центру с горизонтальными «нитями» по бокам. Одна строка —
+   компонент .pill рассчитан на неё (радиус 999px + nowrap). */
+.choice__middle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.5cqw, 24px);
+  margin-top: clamp(20px, 2cqw, 36px);
+}
+
+.choice__middle::before,
+.choice__middle::after {
+  content: '';
+  /* Нити занимают свободное место по бокам, но не длиннее 220px: на 1920
+     линия во всю ширину секции читалась бы как разделитель страницы. */
+  flex: 1 1 auto;
+  max-width: clamp(40px, 12cqw, 220px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-light-blue));
+}
+
+.choice__middle::after { background: linear-gradient(90deg, var(--color-light-blue), transparent); }
+
+.choice__middle-pill { text-align: center; }
+
+.choice__outcome {
+  margin-top: clamp(24px, 2.5cqw, 48px);
+  text-align: center;
+  font-size: var(--fs-h4);
+  line-height: 1.35;
+}
+
+@media (max-width: 1024px) {
+  .choice__grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* В столбик прижим «плюса» к низу карточки теряет смысл: выравнивать
+     больше не с чем, а лишний воздух растягивал бы первую карточку. */
+  .choice__point--plus { margin-top: 0; }
+}
+
+@media (max-width: 767px) {
+  .choice__outcome { font-size: var(--fs-text); }
+
+  /* На 360 пилла с нитями по бокам не помещается в строку */
+  .choice__middle::before,
+  .choice__middle::after { max-width: 40px; }
+}

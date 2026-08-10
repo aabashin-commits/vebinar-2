@@ -1,0 +1,167 @@
+/* paths.css — два пути обучения в школе: быстрый (10–11 класс за один год
+   через семейную форму) и стандартный (два года с системной подготовкой
+   к ЕГЭ). Снизу — полоса доказательств.
+   Новый блок, донора в вебинаре 1 нет.
+
+   Карточки намеренно РАЗНОЙ плотности: у быстрого пути две ступени, у
+   стандартного — две развёрнутые (10 класс и 11 класс), поэтому вторая
+   визуально тяжелее. Это не иерархия «лучше/хуже», а честное отражение
+   того, что стандартный путь длиннее и в нём больше этапов. */
+
+.paths__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(24px, 2.5cqw, 48px);
+  text-align: center;
+}
+
+.paths__title { line-height: 0.95; }
+
+.paths__lead { max-width: 76cqw; }
+
+.paths__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: var(--gap-cards);
+}
+
+.paths__card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.2cqw, 20px);
+  padding: clamp(24px, 2.5cqw, 48px);
+  border-radius: var(--radius-card);
+}
+
+/* Быстрый — голубая заливка: компактный путь, компактная подача */
+.paths__card--fast {
+  background: var(--color-light-blue);
+}
+
+/* Стандартный — белая карточка с тенью, как основные «листы» страницы */
+.paths__card--standard {
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+.paths__label {
+  align-self: flex-start;
+  font-size: var(--fs-small);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+}
+
+.paths__card--fast .paths__label {
+  background: var(--color-blue);
+  color: var(--color-white);
+}
+
+.paths__card--standard .paths__label {
+  background: var(--color-blue-chip-bg);
+  color: var(--color-blue-chip);
+}
+
+/* Переносы отдаём браузеру: ручные <br> рассчитаны на одну ширину
+   и на другой раскладке рвут заголовок на короткие строки. */
+.paths__card-title {
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.paths__text {
+  font-size: var(--fs-text);
+  line-height: 1.5;
+  color: var(--color-gray-1);
+}
+
+/* ===== Ступени пути ===== */
+/* Прижаты к низу карточки: так ступени обеих карточек начинаются на одной
+   линии, хотя описания над ними разной длины. */
+.paths__stages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-cards);
+  margin-top: auto;
+  padding-top: clamp(12px, 1.2cqw, 20px);
+}
+
+.paths__stage {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: clamp(14px, 1.4cqw, 24px);
+  border-radius: var(--radius-btn);
+  background: var(--color-white);
+}
+
+/* На голубой карточке белая ступень читается сама по себе; на белой —
+   сливается с фоном, поэтому там подложка серая. */
+.paths__card--standard .paths__stage { background: var(--color-surface); }
+
+.paths__stage-name {
+  font-size: var(--fs-btn);
+  font-weight: 600;
+  color: var(--color-blue-chip);
+}
+
+.paths__stage-text {
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--color-gray-1);
+}
+
+/* ===== Полоса доказательств ===== */
+.paths__proof {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-cards);
+  margin-top: var(--gap-cards);
+}
+
+.paths__proof-item {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(12px, 1.2cqw, 18px);
+  padding: clamp(20px, 2.2cqw, 36px);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-light-blue);
+}
+
+.paths__proof-icon {
+  flex: none;
+  color: var(--color-blue);
+}
+
+.paths__proof-title {
+  font-size: var(--fs-h4);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.paths__proof-text {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--color-gray-1);
+}
+
+@media (max-width: 1024px) {
+  .paths__lead { max-width: none; }
+
+  .paths__grid { grid-template-columns: minmax(0, 1fr); }
+
+  .paths__proof { grid-template-columns: minmax(0, 1fr); }
+
+  /* В столбик прижим ступеней к низу теряет смысл: выравнивать больше
+     не с чем, а лишний воздух растягивал бы первую карточку. */
+  .paths__stages { margin-top: 0; }
+}
+
+@media (max-width: 767px) {
+  /* Иконка на 360 съедает треть строки — текст самодостаточен */
+  .paths__proof-icon { display: none; }
+}
