@@ -59,6 +59,12 @@
   --chip-mint-bg:    #CCFFE7;  --chip-mint-fg:    #305C39;
   --chip-violet-bg:  #EDCEFF;  --chip-violet-fg:  #8E1AA6;
 
+  /* Полупрозрачная белая плашка на фирменном синем. Один токен на три места:
+     ячейки таймера, пункты мета-строки hero и пилла .pill--ghost. Заведён,
+     чтобы «как у таймера» держалось само, а не копипастой одного и того же
+     rgba по трём файлам. */
+  --fill-on-accent: rgba(255, 255, 255, 0.15);
+
   --color-error: #FF6E6E;
   --color-light-blue: #D8E6FB;
   --color-pink: #FF2A7F;

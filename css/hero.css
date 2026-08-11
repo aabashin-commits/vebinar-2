@@ -66,14 +66,22 @@
 .hero__meta {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(12px, 1.2cqw, 24px);
+  /* Зазор меньше прежнего (был 12→24): у пунктов появилась заливка,
+     и с широким зазором ряд читался как три оторванных друг от друга плашки. */
+  gap: clamp(8px, 0.8cqw, 14px);
   font-size: var(--fs-small);
 }
 
+/* Заливка та же, что у ячеек таймера, — через общий токен --fill-on-accent.
+   Радиус тоже кнопочный: пункты стоят прямо над таймером, и разные скругления
+   бросались бы в глаза. */
 .hero__meta-item {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: clamp(8px, 0.8vw, 12px) clamp(12px, 1.2vw, 18px);
+  border-radius: var(--radius-btn);
+  background: var(--fill-on-accent);
   color: var(--color-white);
 }
 
@@ -247,8 +255,12 @@
 
   .hero__subtitle { font-size: var(--fs-h4); }
 
+  /* ⚠️ align-items обязателен: в колонке flex по умолчанию растягивает детей,
+     и с появившейся заливкой пункты стали бы плашками во всю ширину экрана.
+     Нужны чипсы по содержимому. */
   .hero__meta {
     flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
   }
 

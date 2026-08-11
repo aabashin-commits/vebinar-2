@@ -19,7 +19,7 @@
   min-width: clamp(58px, 5.5cqw, 92px);
   padding: clamp(8px, 0.8vw, 14px) clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-btn);
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--fill-on-accent);
 }
 
 /* Цифры моноширинные по табличным цифрам Onest: без этого строка «дёргается»

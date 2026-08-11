@@ -175,7 +175,7 @@ footer .container {
 }
 
 .pill--ghost {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--fill-on-accent);
   color: var(--color-white);
 }
 
